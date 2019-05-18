@@ -109,7 +109,7 @@ Encrypt Data
 
 	encrypt_data_response = client.secrets.transit.encrypt_data(
 		name='hvac-key',
-		plaintext=base64.urlsafe_b64encode('hi its me hvac').decode('ascii'),
+		plaintext=base64.b64encode('hi its me hvac').decode('ascii'),
 	)
 	ciphertext = encrypt_data_response['data']['ciphertext']
 	print('Encrypted plaintext ciphertext is: {cipher}'.format(cipher=ciphertext))
@@ -192,8 +192,7 @@ Hash Data
 	client = hvac.Client()
 
 	hash_data_response = client.secrets.transit.hash_data(
-		name='hvac-key',
-		hash_input=base64.urlsafe_b64encode('hi its me hvac').decode('ascii'),
+		hash_input=base64.b64encode('hi its me hvac').decode('ascii'),
 	)
 	sum = hash_data_response['data']['sum']
 	print('Hashed data is: {sum}'.format(sum=sum))
@@ -209,12 +208,12 @@ Generate Hmac
 	import hvac
 	client = hvac.Client()
 
-	generate_hmac_response = client.secrets.transit.hash_data(
+	generate_hmac_response = client.secrets.transit.generate_hmac(
 		name='hvac-key',
-		hash_input=base64.urlsafe_b64encode('hi its me hvac').decode('ascii'),
+		hash_input=base64.b64encode('hi its me hvac').decode('ascii'),
 	)
-	hmac = generate_hmac_response['data']['sum']
-	print('HMAC'd data is: {hmac}'.format(hmac=hmac))
+	hmac = generate_hmac_response['data']['hmac']
+	print('HMAC data is: {hmac}'.format(hmac=hmac))
 
 
 Sign Data
@@ -229,7 +228,7 @@ Sign Data
 
 	sign_data_response = client.secrets.transit.sign_data(
 		name='hvac-key',
-		hash_input=base64.urlsafe_b64encode('hi its me hvac').decode('ascii'),
+		hash_input=base64.b64encode('hi its me hvac').decode('ascii'),
 	)
 	signature = sign_data_response['data']['signature']
 	print('Signature is: {signature}'.format(signature=signature))
@@ -247,7 +246,7 @@ Verify Signed Data
 
 	verify_signed_data_response = client.secrets.transit.verify_signed_data(
 		name='hvac-key',
-		hash_input=base64.urlsafe_b64encode('hi its me hvac').decode('ascii'),
+		hash_input=base64.b64encode('hi its me hvac').decode('ascii'),
 	)
 	valid = verify_signed_data_response['data']['valid']
 	print('Signature is valid?: {valid}'.format(valid=valid))
